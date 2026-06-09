@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>백엔드 세팅 인수인계</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      background: #fff;
+      padding: 28px 32px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1.5px solid #e0e0e0;
+      margin: 12px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 12px;
+      font-weight: 700;
+      background: #f0f4ff;
+      border-left: 3px solid #3b5bdb;
+      padding: 4px 8px;
+      margin-bottom: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5px;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+      text-align: left;
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+    }
+
+    td {
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    .badge-done {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .badge-todo {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    code {
+      background: #f5f5f5;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'Menlo', 'Courier New', monospace;
+      font-size: 10px;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: 5px;
+      padding: 10px 12px;
+      font-family: 'Menlo', 'Courier New', monospace;
+      font-size: 10px;
+      line-height: 1.6;
+      margin-top: 6px;
+      white-space: pre-wrap;
+    }
+
+    .step {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      background: #3b5bdb;
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .step-content {
+      flex: 1;
+      padding-top: 1px;
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .url-box {
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-family: 'Menlo', monospace;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .warn-box {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 10px;
+      margin-top: 6px;
+    }
+
+    @media print {
+      body { padding: 18px 24px; }
+      @page { margin: 0; size: A4; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>App Backend — 세팅 인수인계</h1>
+  <div class="subtitle">작성일: 2026-06-04 &nbsp;|&nbsp; 담당: 백엔드 A &nbsp;|&nbsp; 기술: Spring Boot 3.5.14 / Java 21 / MySQL</div>
+  <hr>
+
+  <div class="grid">
+
+    <!-- 완료된 작업 -->
+    <div class="section">
+      <h2>완료된 작업</h2>
+      <table>
+        <tr><th>항목</th><th>상태</th></tr>
+        <tr><td>Spring Boot 프로젝트 기본 세팅</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>MySQL 연결 및 JPA 설정</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>Spring Security (Stateless / JWT 준비)</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>JWT 의존성 및 설정값</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>Swagger UI 설정</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>FCM (Firebase) 의존성 추가</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>환경 프로파일 분리 (local / dev)</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>DB 초기화 SQL (schema.sql)</td><td class="badge-done">✅ 완료</td></tr>
+        <tr><td>헬스체크 API (GET /api/health)</td><td class="badge-done">✅ 완료</td></tr>
+      </table>
+    </div>
+
+    <!-- 팀원이 추가할 것 -->
+    <div class="section">
+      <h2>팀원이 추가할 것</h2>
+      <table>
+        <tr><th>기능</th><th>위치</th></tr>
+        <tr><td class="badge-todo">JWT 필터 구현</td><td><code>SecurityConfig.java</code> TODO 위치</td></tr>
+        <tr><td class="badge-todo">소셜 로그인 OAuth2</td><td><code>application.yml</code> 키값 슬롯 준비됨</td></tr>
+        <tr><td class="badge-todo">회원/인증 도메인 API</td><td><code>controller/ service/ entity/</code> 하위 추가</td></tr>
+        <tr><td class="badge-todo">게시글/댓글 도메인 API</td><td>동일 구조로 추가</td></tr>
+      </table>
+
+      <div class="warn-box">
+        소셜 로그인 개발 시 필요한 환경변수:<br>
+        <code>KAKAO_CLIENT_ID</code>, <code>KAKAO_CLIENT_SECRET</code> — 카카오 디벨로퍼스<br>
+        <code>GOOGLE_CLIENT_ID</code>, <code>GOOGLE_CLIENT_SECRET</code> — Google Cloud Console<br>
+        <code>JWT_SECRET</code> — 32자 이상 임의 문자열
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <!-- 로컬 세팅 방법 -->
+  <div class="section">
+    <h2>로컬 세팅 방법 (팀원용)</h2>
+    <div class="grid" style="margin-bottom:0;">
+      <div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">레포지토리 클론</div>
+            <pre>git clone &lt;레포 주소&gt;
+cd app_backend</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">MySQL DB 생성</div>
+            <pre>mysql -u root -p &lt; src/main/resources/sql/schema.sql</pre>
+            <div style="margin-top:4px; color:#555;">또는 MySQL에서 직접:</div>
+            <pre>CREATE DATABASE IF NOT EXISTS app_db
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;</pre>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">비밀번호 확인 — <code>application-local.yml</code></div>
+            <pre>spring:
+  datasource:
+    username: root
+    password: 1234  # 다르면 여기만 수정</pre>
+            <div class="warn-box">기본값 root / 1234. 본인 MySQL 비밀번호가 다르면 이 파일만 수정.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">서버 실행</div>
+            <pre>./gradlew bootRun</pre>
+            <div style="margin-top:4px; color:#555;">또는 IntelliJ에서 <code>AppBackendApplication.java</code> → ▶</div>
+            <div class="url-box">
+              헬스체크: http://localhost:8080/api/health<br>
+              Swagger: http://localhost:8080/swagger-ui/index.html
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="grid" style="margin-bottom:0;">
+    <!-- 환경 프로파일 -->
+    <div class="section" style="margin-bottom:0;">
+      <h2>환경 프로파일</h2>
+      <table>
+        <tr><th>프로파일</th><th>용도</th><th>DB</th></tr>
+        <tr><td><code>local</code> (기본값)</td><td>로컬 개발</td><td>localhost:3306, root/1234</td></tr>
+        <tr><td><code>dev</code></td><td>AWS EC2 서버</td><td>환경변수(RDS_ENDPOINT)로 주입</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:6px;">별도 설정 없이 바로 실행 가능. 프로파일 기본값은 <code>local</code>.</div>
+    </div>
+
+    <!-- 현재 API -->
+    <div class="section" style="margin-bottom:0;">
+      <h2>현재 API 목록</h2>
+      <table>
+        <tr><th>메서드</th><th>URL</th><th>인증</th><th>설명</th></tr>
+        <tr><td>GET</td><td><code>/api/health</code></td><td>불필요</td><td>서버 상태 확인</td></tr>
+      </table>
+      <div style="margin-top:8px;">
+        <h2>Swagger 이용 방법</h2>
+      </div>
+      <table style="margin-top:0;">
+        <tr><th>단계</th><th>내용</th></tr>
+        <tr><td>세팅</td><td>이미 완료 (springdoc-openapi 2.8.6)</td></tr>
+        <tr><td>문서 작성</td><td>각자 담당 API에 <code>@Operation</code>, <code>@Tag</code> 추가</td></tr>
+        <tr><td>로컬 확인</td><td><code>http://localhost:8080/swagger-ui/index.html</code></td></tr>
+        <tr><td>팀 공유</td><td>EC2 배포 후 URL 공유 (백엔드 B 담당)</td></tr>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

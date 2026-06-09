@@ -1,0 +1,31 @@
+# 빌드 산출물
+build/
+target/
+*.class
+.gradle/
+
+# 인텔리제이
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Mac OS
+.DS_Store
+
+# 환경변수 파일 (절대 커밋 금지)
+.env
+*.env
+application-local.yml
+application-dev.yml
+
+# Firebase 서비스 계정 키 (절대 커밋 금지)
+firebase-service-account.json
+*-service-account.json
+
+# 로그
+*.log
+logs/
+
+# 임시 파일
+*.tmp
