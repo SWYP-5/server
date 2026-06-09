@@ -10,6 +10,22 @@ on:
 jobs:
   validation:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: "1234"
+          MYSQL_DATABASE: app_db
+          TZ: Asia/Seoul
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -p1234"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout 코드
         uses: actions/checkout@v4
@@ -28,3 +44,6 @@ jobs:
 
       - name: Build + Test
         run: ./gradlew build
+        env:
+          DB_USERNAME: root
+          DB_PASSWORD: "1234"
