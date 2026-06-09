@@ -1,0 +1,47 @@
+name: PR Notification
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+    branches:
+      - develop
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # 초안(Draft) PR은 알림 제외, 정식 PR만 알림
+    if: ${{ !github.event.pull_request.draft }}
+    steps:
+      - name: Discord 알림
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+        run: |
+          PAYLOAD=$(jq -n \
+            --arg title "$PR_TITLE" \
+            --arg url "$PR_URL" \
+            --arg author "$PR_AUTHOR" \
+            --arg base "$PR_BASE" \
+            --arg head "$PR_HEAD" \
+            '{
+              content: "<@814829137180622920> <@1116621467703070793> 📢 새 PR이 올라왔어요!",
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: 5814783,
+                fields: [
+                  { name: "작성자", value: $author, inline: true },
+                  { name: "브랜치", value: ($head + " → " + $base), inline: true }
+                ],
+                footer: { text: "PR Review Request" }
+              }]
+            }')
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "$PAYLOAD" \
+            "$DISCORD_WEBHOOK_URL"
