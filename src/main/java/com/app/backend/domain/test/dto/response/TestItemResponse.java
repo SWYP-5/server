@@ -1,6 +1,6 @@
-package com.app.backend.dto.response;
+package com.app.backend.domain.test.dto.response;
 
-import com.app.backend.entity.TestItem;
+import com.app.backend.domain.test.entity.TestItem;
 
 public record TestItemResponse(
         Long id,

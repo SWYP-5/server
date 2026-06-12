@@ -1,7 +1,7 @@
-package com.app.backend.controller;
+package com.app.backend.domain.test.controller;
 
-import com.app.backend.dto.response.TestItemResponse;
-import com.app.backend.service.TestItemService;
+import com.app.backend.domain.test.dto.response.TestItemResponse;
+import com.app.backend.domain.test.service.TestItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

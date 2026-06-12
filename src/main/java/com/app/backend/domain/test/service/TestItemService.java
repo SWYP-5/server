@@ -1,7 +1,7 @@
-package com.app.backend.service;
+package com.app.backend.domain.test.service;
 
-import com.app.backend.dto.response.TestItemResponse;
-import com.app.backend.repository.TestItemRepository;
+import com.app.backend.domain.test.dto.response.TestItemResponse;
+import com.app.backend.domain.test.repository.TestItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

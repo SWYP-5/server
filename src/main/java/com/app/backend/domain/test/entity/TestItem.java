@@ -1,4 +1,4 @@
-package com.app.backend.entity;
+package com.app.backend.domain.test.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
