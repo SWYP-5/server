@@ -12,6 +12,8 @@ import com.app.backend.domain.auth.repository.RefreshTokenRepository;
 import com.app.backend.domain.user.entity.AuthProvider;
 import com.app.backend.domain.user.entity.User;
 import com.app.backend.domain.user.repository.UserRepository;
+import com.app.backend.global.exception.CustomException;
+import com.app.backend.global.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +71,7 @@ public class AuthService {
         }
 
         if (isUnderMinAge(request.birthDate())) {
-            throw new IllegalArgumentException("만 14세 미만은 가입할 수 없습니다.");
+            throw new CustomException(ErrorCode.UNDER_MIN_AGE);
         }
 
         User user = userRepository.save(User.builder()
@@ -87,11 +89,11 @@ public class AuthService {
     @Transactional
     public TokenResponse refresh(String refreshToken) {
         if (!jwtProvider.validateToken(refreshToken)) {
-            throw new IllegalArgumentException("유효하지 않은 refresh token 입니다.");
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         RefreshToken saved = refreshTokenRepository.findByToken(refreshToken)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 refresh token 입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_REFRESH_TOKEN));
 
         String newAccessToken = jwtProvider.createAccessToken(saved.getUserId());
         return new TokenResponse(newAccessToken);
