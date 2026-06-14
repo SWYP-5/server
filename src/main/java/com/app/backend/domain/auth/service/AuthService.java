@@ -6,7 +6,7 @@ import com.app.backend.domain.auth.dto.SocialLoginRequest;
 import com.app.backend.domain.auth.dto.TokenResponse;
 import com.app.backend.domain.auth.entity.RefreshToken;
 import com.app.backend.domain.auth.jwt.JwtProvider;
-import com.app.backend.domain.auth.oauth.OAuthClient;
+import com.app.backend.domain.auth.oauth.OAuthClientResolver;
 import com.app.backend.domain.auth.oauth.OAuthUserInfo;
 import com.app.backend.domain.auth.repository.RefreshTokenRepository;
 import com.app.backend.domain.user.entity.AuthProvider;
@@ -28,18 +28,18 @@ public class AuthService {
 
     private static final int MIN_AGE = 14;
 
-    private final OAuthClient oAuthClient;
+    private final OAuthClientResolver oAuthClientResolver;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final long refreshTokenExpiration;
 
-    public AuthService(OAuthClient oAuthClient,
+    public AuthService(OAuthClientResolver oAuthClientResolver,
                        UserRepository userRepository,
                        JwtProvider jwtProvider,
                        RefreshTokenRepository refreshTokenRepository,
                        @Value("${jwt.refresh-token-expiration}") long refreshTokenExpiration) {
-        this.oAuthClient = oAuthClient;
+        this.oAuthClientResolver = oAuthClientResolver;
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.refreshTokenRepository = refreshTokenRepository;
@@ -48,7 +48,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponse login(AuthProvider provider, SocialLoginRequest request) {
-        OAuthUserInfo userInfo = oAuthClient.getUserInfo(request.accessToken());
+        OAuthUserInfo userInfo = oAuthClientResolver.resolve(provider).getUserInfo(request.accessToken());
 
         Optional<User> found =
                 userRepository.findByProviderAndProviderId(provider, userInfo.providerId());
@@ -62,7 +62,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponse signup(SignupRequest request) {
-        OAuthUserInfo userInfo = oAuthClient.getUserInfo(request.accessToken());
+        OAuthUserInfo userInfo = oAuthClientResolver.resolve(request.provider()).getUserInfo(request.accessToken());
 
         Optional<User> found =
                 userRepository.findByProviderAndProviderId(request.provider(), userInfo.providerId());
@@ -77,10 +77,8 @@ public class AuthService {
         User user = userRepository.save(User.builder()
                 .provider(request.provider())
                 .providerId(userInfo.providerId())
-                .email(userInfo.email())
-                .nickname(userInfo.nickname())
+                .nickname(request.nickname())
                 .birthDate(request.birthDate())
-                .profileImageUrl(userInfo.profileImageUrl())
                 .build());
 
         return issueTokens(user, true);
