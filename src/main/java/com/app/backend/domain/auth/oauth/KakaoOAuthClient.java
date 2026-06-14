@@ -3,14 +3,12 @@ package com.app.backend.domain.auth.oauth;
 import com.app.backend.domain.user.entity.AuthProvider;
 import com.app.backend.global.exception.CustomException;
 import com.app.backend.global.exception.ErrorCode;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
 @Component
-@Profile("!local")
 public class KakaoOAuthClient implements OAuthClient {
 
     private static final String USER_INFO_URI = "https://kapi.kakao.com/v2/user/me";
